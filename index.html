@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Details Calculation</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .header h3 {
+      margin: 0;
+      color: #1b5e20;
+    }
+
+    .header h2 {
+      margin: 5px 0 20px 0;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: #2e7d32;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1b5e20;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f1f8e9;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <h3>Horticulture Dept, Pakyong District</h3>
+  <h2>Crop Details Calculation</h2>
+</div>
+
+<div class="container">
+
+  <label>Crop</label>
+  <select id="crop" onchange="updateInputs()">
+    <option value="">-- Select Crop --</option>
+    <option value="ginger">Ginger</option>
+    <option value="turmeric">Turmeric</option>
+    <option value="orange">Orange</option>
+  </select>
+
+  <label>Area (hectare)</label>
+  <input type="number" id="area" step="0.1">
+
+  <label id="seedLabel">Seed Cost per kg (₹)</label>
+  <input type="number" id="seedCost">
+
+  <label>Market Price per kg (₹)</label>
+  <input type="number" id="price">
+
+  <label>Labour No.</label>
+  <input type="number" id="labour">
+
+  <label>Other Cost (₹)</label>
+  <input type="number" id="otherCost">
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+
+const labourRate = 500;
+
+const masterData = {
+  ginger: {
+    type: "field",
+    seedRate: 2200,
+    yield: 10000,
+    seedCost: 40,
+    price: 30
+  },
+  turmeric: {
+    type: "field",
+    seedRate: 2200,
+    yield: 6000,
+    seedCost: 20,
+    price: 25
+  },
+  orange: {
+    type: "fruit",
+    plantsPerHa: 400,
+    yieldPerPlant: 50,
+    seedCost: 30,
+    price: 100
+  }
+};
+
+function formatCurrency(val) {
+  return "₹ " + val.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+}
+
+function formatNumber(val) {
+  return val.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+}
+
+// Auto-fill default values
+function updateInputs() {
+  let crop = document.getElementById("crop").value;
+  if (!crop) return;
+
+  let data = masterData[crop];
+
+  document.getElementById("seedCost").value = data.seedCost;
+  document.getElementById("price").value = data.price;
+
+  // Change label for orange
+  if (data.type === "fruit") {
+    document.getElementById("seedLabel").innerText = "Plant Cost per unit (₹)";
+  } else {
+    document.getElementById("seedLabel").innerText = "Seed Cost per kg (₹)";
+  }
+}
+
+function calculate() {
+
+  let crop = document.getElementById("crop").value;
+  let area = parseFloat(document.getElementById("area").value);
+
+  if (!crop || !area) {
+    alert("Please select crop and enter area");
+    return;
+  }
+
+  let labour = parseFloat(document.getElementById("labour").value) || 0;
+  let otherCost = parseFloat(document.getElementById("otherCost").value) || 0;
+
+  let seedCostInput = parseFloat(document.getElementById("seedCost").value) || 0;
+  let priceInput = parseFloat(document.getElementById("price").value) || 0;
+
+  let data = masterData[crop];
+
+  let seedQty = 0;
+  let yield = 0;
+  let seedTotalCost = 0;
+
+  // 🔥 DIFFERENT LOGIC
+  if (data.type === "field") {
+    seedQty = data.seedRate * area;
+    yield = data.yield * area;
+    seedTotalCost = seedQty * seedCostInput;
+  } else {
+    let plants = data.plantsPerHa * area;
+    seedQty = plants;
+    yield = plants * data.yieldPerPlant;
+    seedTotalCost = plants * seedCostInput;
+  }
+
+  let labourCost = labour * labourRate;
+  let income = yield * priceInput;
+  let expenditure = seedTotalCost + labourCost + otherCost;
+
+  document.getElementById("result").style.display = "block";
+
+  document.getElementById("result").innerHTML = `
+    <strong>Result:</strong><br><br>
+    ${data.type === "field" 
+      ? "Seed Quantity: " + formatNumber(seedQty) + " kg<br>"
+      : "Number of Plants: " + formatNumber(seedQty) + "<br>"
+    }
+    Yield: ${formatNumber(yield)} kg<br>
+    Labour Cost: ${formatCurrency(labourCost)}<br>
+    Income: ${formatCurrency(income)}<br>
+    Expenditure: ${formatCurrency(expenditure)}
+  `;
+}
+
+</script>
+
+</body>
+</html>

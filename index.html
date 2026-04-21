@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crop Details Calculation</title>
 
   <style>
@@ -9,7 +10,7 @@
       font-family: Arial, sans-serif;
       background: #eef2f7;
       margin: 0;
-      padding: 20px;
+      padding: 10px;
     }
 
     .header {
@@ -20,26 +21,30 @@
     .header h3 {
       margin: 0;
       color: #1b5e20;
+      font-size: 16px;
     }
 
     .header h2 {
-      margin: 5px 0 20px 0;
+      margin: 5px 0 15px 0;
       color: #2c3e50;
+      font-size: 20px;
     }
 
     .container {
-      max-width: 520px;
+      width: 100%;
+      max-width: 500px;
       margin: auto;
       background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     label {
       font-weight: bold;
       display: block;
-      margin-top: 10px;
+      margin-top: 12px;
+      font-size: 14px;
     }
 
     input, select {
@@ -48,6 +53,7 @@
       margin-top: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
+      font-size: 14px;
     }
 
     button {
@@ -72,6 +78,13 @@
       background: #f1f8e9;
       border-radius: 8px;
       display: none;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
     }
   </style>
 </head>
@@ -120,7 +133,7 @@ const labourRate = 500;
 const masterData = {
   ginger: {
     type: "field",
-    seedRate: 2200,
+    seedRate: 2000,   // ✅ UPDATED
     yield: 10000,
     seedCost: 40,
     price: 30
@@ -149,7 +162,6 @@ function formatNumber(val) {
   return val.toLocaleString("en-IN", { maximumFractionDigits: 2 });
 }
 
-// Auto-fill default values
 function updateInputs() {
   let crop = document.getElementById("crop").value;
   if (!crop) return;
@@ -159,7 +171,6 @@ function updateInputs() {
   document.getElementById("seedCost").value = data.seedCost;
   document.getElementById("price").value = data.price;
 
-  // Change label for orange
   if (data.type === "fruit") {
     document.getElementById("seedLabel").innerText = "Plant Cost per unit (₹)";
   } else {
@@ -179,7 +190,6 @@ function calculate() {
 
   let labour = parseFloat(document.getElementById("labour").value) || 0;
   let otherCost = parseFloat(document.getElementById("otherCost").value) || 0;
-
   let seedCostInput = parseFloat(document.getElementById("seedCost").value) || 0;
   let priceInput = parseFloat(document.getElementById("price").value) || 0;
 
@@ -189,7 +199,6 @@ function calculate() {
   let yield = 0;
   let seedTotalCost = 0;
 
-  // 🔥 DIFFERENT LOGIC
   if (data.type === "field") {
     seedQty = data.seedRate * area;
     yield = data.yield * area;

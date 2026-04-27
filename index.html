@@ -1,92 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crop Details Calculation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crop Details Calculation</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef2f7;
-      margin: 0;
-      padding: 10px;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+  margin: 0;
+  padding: 8px;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 10px;
-    }
+.header {
+  text-align: center;
+}
 
-    .header h3 {
-      margin: 0;
-      color: #1b5e20;
-      font-size: 16px;
-    }
+.header h3 {
+  margin: 0;
+  color: #1b5e20;
+  font-size: 15px;
+}
 
-    .header h2 {
-      margin: 5px 0 15px 0;
-      color: #2c3e50;
-      font-size: 20px;
-    }
+.header h2 {
+  margin: 5px 0 10px 0;
+  font-size: 18px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 500px;
-      margin: auto;
-      background: #fff;
-      padding: 18px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+.container {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+}
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 12px;
-      font-size: 14px;
-    }
+label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+  font-size: 13px;
+}
 
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      background: #2e7d32;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+}
 
-    button:hover {
-      background: #1b5e20;
-    }
-
-    .result {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f1f8e9;
-      border-radius: 8px;
-      display: none;
-      font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 15px;
-      }
-    }
-  </style>
+.result {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f1f8e9;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+}
+</style>
 </head>
 
 <body>
@@ -98,32 +85,43 @@
 
 <div class="container">
 
-  <label>Crop</label>
-  <select id="crop" onchange="updateInputs()">
-    <option value="">-- Select Crop --</option>
-    <option value="ginger">Ginger</option>
-    <option value="turmeric">Turmeric</option>
-    <option value="orange">Orange</option>
-  </select>
+<label>Crop</label>
+<select id="crop" onchange="updateInputs()">
+<option value="">-- Select Crop --</option>
+<option value="ginger">Ginger</option>
+<option value="turmeric">Turmeric</option>
+<option value="orange">Orange</option>
 
-  <label>Area (hectare)</label>
-  <input type="number" id="area" step="0.1">
+<option value="urad">Urad Dal</option>
+<option value="soyabean">Soyabean</option>
+<option value="mustard">Mustard</option>
+<option value="rice">Rice</option>
+<option value="maize">Maize</option>
+<option value="buckwheat">Buckwheat</option>
+<option value="millet">Millet</option>
+<option value="frenchbean">French Bean</option>
+<option value="pea">Pea</option>
+</select>
 
-  <label id="seedLabel">Seed Cost per kg (₹)</label>
-  <input type="number" id="seedCost">
+<label>Area (hectare)</label>
+<input type="number" id="area" step="0.1">
 
-  <label>Market Price per kg (₹)</label>
-  <input type="number" id="price">
+<label id="seedLabel">Seed Cost per unit (₹)</label>
+<input type="number" id="seedCost">
 
-  <label>Labour No.</label>
-  <input type="number" id="labour">
+<label>Market Price per kg (₹)</label>
+<input type="number" id="price">
 
-  <label>Other Cost (₹)</label>
-  <input type="number" id="otherCost">
+<label>Labour No.</label>
+<input type="number" id="labour">
 
-  <button onclick="calculate()">Calculate</button>
+<label>Other Cost (₹)</label>
+<input type="number" id="otherCost">
 
-  <div class="result" id="result"></div>
+<button onclick="calculate()">Calculate</button>
+
+<div class="result" id="result"></div>
+
 </div>
 
 <script>
@@ -131,102 +129,93 @@
 const labourRate = 500;
 
 const masterData = {
-  ginger: {
-    type: "field",
-    seedRate: 2000,   // ✅ UPDATED
-    yield: 10000,
-    seedCost: 40,
-    price: 30
-  },
-  turmeric: {
-    type: "field",
-    seedRate: 2200,
-    yield: 6000,
-    seedCost: 20,
-    price: 25
-  },
-  orange: {
-    type: "fruit",
-    plantsPerHa: 400,
-    yieldPerPlant: 50,
-    seedCost: 30,
-    price: 100
-  }
+
+ginger:{type:"field",unit:"kg",rate:2000,yield:10000},
+turmeric:{type:"field",unit:"kg",rate:2200,yield:6000},
+orange:{type:"fruit",unit:"plant",plants:400,yieldPlant:50},
+
+urad:{type:"field",unit:"kg",rate:20,yield:800},
+soyabean:{type:"field",unit:"kg",rate:70,yield:2000},
+mustard:{type:"field",unit:"kg",rate:5,yield:1000},
+rice:{type:"field",unit:"kg",rate:30,yield:1800},
+maize:{type:"field",unit:"kg",rate:20,yield:1800},
+buckwheat:{type:"field",unit:"kg",rate:50,yield:1200},
+millet:{type:"field",unit:"kg",rate:10,yield:800},
+
+frenchbean:{type:"veg",unit:"gm",rate:60000,yield:1000},
+pea:{type:"veg",unit:"gm",rate:80000,yield:10000}
+
 };
 
-function formatCurrency(val) {
-  return "₹ " + val.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+function formatCurrency(v){
+return "₹ " + v.toLocaleString("en-IN",{maximumFractionDigits:0});
 }
 
-function formatNumber(val) {
-  return val.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+function formatNumber(v){
+return v.toLocaleString("en-IN",{maximumFractionDigits:2});
 }
 
-function updateInputs() {
-  let crop = document.getElementById("crop").value;
-  if (!crop) return;
+function updateInputs(){
+let crop=document.getElementById("crop").value;
+if(!crop) return;
 
-  let data = masterData[crop];
+let data=masterData[crop];
 
-  document.getElementById("seedCost").value = data.seedCost;
-  document.getElementById("price").value = data.price;
-
-  if (data.type === "fruit") {
-    document.getElementById("seedLabel").innerText = "Plant Cost per unit (₹)";
-  } else {
-    document.getElementById("seedLabel").innerText = "Seed Cost per kg (₹)";
-  }
+if(data.unit==="kg"){
+document.getElementById("seedLabel").innerText="Seed Cost per kg (₹)";
+}
+else if(data.unit==="gm"){
+document.getElementById("seedLabel").innerText="Seed Cost per gram (₹)";
+}
+else{
+document.getElementById("seedLabel").innerText="Plant Cost per unit (₹)";
+}
 }
 
-function calculate() {
+function calculate(){
 
-  let crop = document.getElementById("crop").value;
-  let area = parseFloat(document.getElementById("area").value);
+let crop=document.getElementById("crop").value;
+let area=parseFloat(document.getElementById("area").value);
 
-  if (!crop || !area) {
-    alert("Please select crop and enter area");
-    return;
-  }
+if(!crop||!area){
+alert("Enter crop and area");
+return;
+}
 
-  let labour = parseFloat(document.getElementById("labour").value) || 0;
-  let otherCost = parseFloat(document.getElementById("otherCost").value) || 0;
-  let seedCostInput = parseFloat(document.getElementById("seedCost").value) || 0;
-  let priceInput = parseFloat(document.getElementById("price").value) || 0;
+let labour=parseFloat(document.getElementById("labour").value)||0;
+let otherCost=parseFloat(document.getElementById("otherCost").value)||0;
+let seedCost=parseFloat(document.getElementById("seedCost").value)||0;
+let price=parseFloat(document.getElementById("price").value)||0;
 
-  let data = masterData[crop];
+let data=masterData[crop];
 
-  let seedQty = 0;
-  let yield = 0;
-  let seedTotalCost = 0;
+let seedQty=0;
+let yield=0;
 
-  if (data.type === "field") {
-    seedQty = data.seedRate * area;
-    yield = data.yield * area;
-    seedTotalCost = seedQty * seedCostInput;
-  } else {
-    let plants = data.plantsPerHa * area;
-    seedQty = plants;
-    yield = plants * data.yieldPerPlant;
-    seedTotalCost = plants * seedCostInput;
-  }
+if(data.type==="field"||data.type==="veg"){
+seedQty=data.rate*area;
+yield=data.yield*area;
+}
+else{
+seedQty=data.plants*area;
+yield=seedQty*data.yieldPlant;
+}
 
-  let labourCost = labour * labourRate;
-  let income = yield * priceInput;
-  let expenditure = seedTotalCost + labourCost + otherCost;
+let seedTotal=seedQty*seedCost;
+let labourCost=labour*labourRate;
+let income=yield*price;
+let expenditure=seedTotal+labourCost+otherCost;
 
-  document.getElementById("result").style.display = "block";
+document.getElementById("result").style.display="block";
 
-  document.getElementById("result").innerHTML = `
-    <strong>Result:</strong><br><br>
-    ${data.type === "field" 
-      ? "Seed Quantity: " + formatNumber(seedQty) + " kg<br>"
-      : "Number of Plants: " + formatNumber(seedQty) + "<br>"
-    }
-    Yield: ${formatNumber(yield)} kg<br>
-    Labour Cost: ${formatCurrency(labourCost)}<br>
-    Income: ${formatCurrency(income)}<br>
-    Expenditure: ${formatCurrency(expenditure)}
-  `;
+document.getElementById("result").innerHTML=`
+<strong>Result:</strong><br><br>
+${data.unit==="plant"?"Plants: ":"Seed Quantity: "} ${formatNumber(seedQty)} ${data.unit}<br>
+Yield: ${formatNumber(yield)} kg<br>
+Labour Cost: ${formatCurrency(labourCost)}<br>
+Income: ${formatCurrency(income)}<br>
+Expenditure: ${formatCurrency(expenditure)}
+`;
 }
 
 </script>

@@ -7,7 +7,7 @@
 
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: #eef2f7;
   margin: 0;
   padding: 8px;
@@ -17,19 +17,7 @@ body {
   text-align: center;
 }
 
-.header h3 {
-  margin: 0;
-  color: #1b5e20;
-  font-size: 15px;
-}
-
-.header h2 {
-  margin: 5px 0 10px 0;
-  font-size: 18px;
-}
-
 .container {
-  width: 100%;
   max-width: 420px;
   margin: auto;
   background: #fff;
@@ -37,40 +25,27 @@ body {
   border-radius: 10px;
 }
 
-label {
-  font-weight: bold;
-  margin-top: 10px;
-  display: block;
-  font-size: 13px;
-}
-
-input, select {
+input, select, button {
   width: 100%;
   padding: 10px;
-  margin-top: 4px;
+  margin-top: 6px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  font-size: 14px;
   box-sizing: border-box;
 }
 
 button {
-  width: 100%;
-  margin-top: 15px;
-  padding: 12px;
   background: #2e7d32;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
+  margin-top: 12px;
 }
 
 .result {
-  margin-top: 15px;
-  padding: 12px;
+  margin-top: 12px;
+  padding: 10px;
   background: #f1f8e9;
   border-radius: 8px;
-  font-size: 13px;
   display: none;
 }
 </style>
@@ -79,8 +54,8 @@ button {
 <body>
 
 <div class="header">
-  <h3>Horticulture Dept, Pakyong District</h3>
-  <h2>Crop Details Calculation</h2>
+<h3>Horticulture Dept, Pakyong District</h3>
+<h2>Crop Details Calculation</h2>
 </div>
 
 <div class="container">
@@ -88,9 +63,6 @@ button {
 <label>Crop</label>
 <select id="crop" onchange="updateInputs()">
 <option value="">-- Select Crop --</option>
-<option value="ginger">Ginger</option>
-<option value="turmeric">Turmeric</option>
-<option value="orange">Orange</option>
 
 <option value="urad">Urad Dal</option>
 <option value="soyabean">Soyabean</option>
@@ -99,17 +71,29 @@ button {
 <option value="maize">Maize</option>
 <option value="buckwheat">Buckwheat</option>
 <option value="millet">Millet</option>
+
 <option value="frenchbean">French Bean</option>
 <option value="pea">Pea</option>
+
+<option value="orange">Orange</option>
+<option value="kiwi">Kiwi</option>
+<option value="banana">Banana</option>
+<option value="papaya">Papaya</option>
+<option value="avocado">Avocado</option>
+<option value="guava">Guava</option>
+
 </select>
 
 <label>Area (hectare)</label>
 <input type="number" id="area" step="0.1">
 
-<label id="seedLabel">Seed Cost per unit (₹)</label>
+<label id="plantLabel">Number of Plants (for fruits only)</label>
+<input type="number" id="plants">
+
+<label>Seed / Plant Cost (₹)</label>
 <input type="number" id="seedCost">
 
-<label>Market Price per kg (₹)</label>
+<label>Market Price (₹/kg)</label>
 <input type="number" id="price">
 
 <label>Labour No.</label>
@@ -130,89 +114,106 @@ const labourRate = 500;
 
 const masterData = {
 
-ginger:{type:"field",unit:"kg",rate:2000,yield:10000},
-turmeric:{type:"field",unit:"kg",rate:2200,yield:6000},
-orange:{type:"fruit",unit:"plant",plants:400,yieldPlant:50},
+// FIELD
+urad:{type:"field",unit:"kg",rate:20,yield:800,seedCost:150,price:100},
+soyabean:{type:"field",rate:70,yield:2000,seedCost:50,price:40},
+mustard:{type:"field",rate:5,yield:1000,seedCost:100,price:60},
+rice:{type:"field",rate:30,yield:1800,seedCost:0,price:150},
+maize:{type:"field",rate:20,yield:1800,seedCost:100,price:60},
+buckwheat:{type:"field",rate:50,yield:1200,seedCost:100,price:60},
+millet:{type:"field",rate:10,yield:800,seedCost:100,price:80},
 
-urad:{type:"field",unit:"kg",rate:20,yield:800},
-soyabean:{type:"field",unit:"kg",rate:70,yield:2000},
-mustard:{type:"field",unit:"kg",rate:5,yield:1000},
-rice:{type:"field",unit:"kg",rate:30,yield:1800},
-maize:{type:"field",unit:"kg",rate:20,yield:1800},
-buckwheat:{type:"field",unit:"kg",rate:50,yield:1200},
-millet:{type:"field",unit:"kg",rate:10,yield:800},
+// VEGETABLE
+frenchbean:{type:"veg",unit:"gm",rate:60000,yield:1000,seedCost:400,price:80},
+pea:{type:"veg",unit:"gm",rate:80000,yield:10000,seedCost:400,price:80},
 
-frenchbean:{type:"veg",unit:"gm",rate:60000,yield:1000},
-pea:{type:"veg",unit:"gm",rate:80000,yield:10000}
+// FRUIT
+orange:{type:"fruit",plantsHa:400,yieldHa:12000,seedCost:30,price:100},
+kiwi:{type:"fruit",plantsHa:114,yieldHa:8000},
+banana:{type:"fruit",plantsHa:1100,yieldHa:35000},
+papaya:{type:"fruit",plantsHa:1800,yieldHa:40000},
+avocado:{type:"fruit",plantsHa:30,yieldHa:6000},
+guava:{type:"fruit",plantsHa:270,yieldHa:15000}
 
 };
 
 function formatCurrency(v){
-return "₹ " + v.toLocaleString("en-IN",{maximumFractionDigits:0});
-}
-
-function formatNumber(v){
-return v.toLocaleString("en-IN",{maximumFractionDigits:2});
+return "₹ " + v.toLocaleString("en-IN");
 }
 
 function updateInputs(){
 let crop=document.getElementById("crop").value;
 if(!crop) return;
 
-let data=masterData[crop];
+let d=masterData[crop];
 
-if(data.unit==="kg"){
-document.getElementById("seedLabel").innerText="Seed Cost per kg (₹)";
-}
-else if(data.unit==="gm"){
-document.getElementById("seedLabel").innerText="Seed Cost per gram (₹)";
-}
-else{
-document.getElementById("seedLabel").innerText="Plant Cost per unit (₹)";
-}
+document.getElementById("seedCost").value=d.seedCost||"";
+document.getElementById("price").value=d.price||"";
 }
 
 function calculate(){
 
 let crop=document.getElementById("crop").value;
-let area=parseFloat(document.getElementById("area").value);
+let area=parseFloat(document.getElementById("area").value)||0;
+let plants=parseFloat(document.getElementById("plants").value)||0;
 
-if(!crop||!area){
-alert("Enter crop and area");
+if(!crop){
+alert("Select crop");
 return;
 }
 
-let labour=parseFloat(document.getElementById("labour").value)||0;
-let otherCost=parseFloat(document.getElementById("otherCost").value)||0;
-let seedCost=parseFloat(document.getElementById("seedCost").value)||0;
-let price=parseFloat(document.getElementById("price").value)||0;
-
-let data=masterData[crop];
+let d=masterData[crop];
 
 let seedQty=0;
 let yield=0;
 
-if(data.type==="field"||data.type==="veg"){
-seedQty=data.rate*area;
-yield=data.yield*area;
+if(d.type==="fruit"){
+
+if(plants>0){
+area = plants / d.plantsHa;
+}
+else if(area>0){
+plants = d.plantsHa * area;
 }
 else{
-seedQty=data.plants*area;
-yield=seedQty*data.yieldPlant;
+alert("Enter area or plants");
+return;
 }
 
-let seedTotal=seedQty*seedCost;
-let labourCost=labour*labourRate;
-let income=yield*price;
-let expenditure=seedTotal+labourCost+otherCost;
+yield = d.yieldHa * area;
+
+seedQty = plants;
+
+}
+else{
+
+if(!area){
+alert("Enter area");
+return;
+}
+
+seedQty = d.rate * area;
+yield = d.yield * area;
+
+}
+
+let seedCost=parseFloat(document.getElementById("seedCost").value)||0;
+let price=parseFloat(document.getElementById("price").value)||0;
+let labour=parseFloat(document.getElementById("labour").value)||0;
+let otherCost=parseFloat(document.getElementById("otherCost").value)||0;
+
+let seedTotal = seedQty * seedCost;
+let labourCost = labour * labourRate;
+let income = yield * price;
+let expenditure = seedTotal + labourCost + otherCost;
 
 document.getElementById("result").style.display="block";
 
 document.getElementById("result").innerHTML=`
 <strong>Result:</strong><br><br>
-${data.unit==="plant"?"Plants: ":"Seed Quantity: "} ${formatNumber(seedQty)} ${data.unit}<br>
-Yield: ${formatNumber(yield)} kg<br>
-Labour Cost: ${formatCurrency(labourCost)}<br>
+Area: ${area.toFixed(2)} ha<br>
+Plants/Seed: ${seedQty.toFixed(0)}<br>
+Yield: ${yield.toFixed(0)} kg<br>
 Income: ${formatCurrency(income)}<br>
 Expenditure: ${formatCurrency(expenditure)}
 `;

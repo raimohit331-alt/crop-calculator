@@ -357,10 +357,12 @@
 
     function calculate() {
       const crop = document.getElementById("crop").value;
-      if (!crop) {
-        alert("Please select a crop.");
-        return;
-      }
+     let price = document.getElementById("price").value;
+
+if (!price || price <= 0) {
+  alert("Please enter Selling Price per kg.");
+  return;
+}
 
       const data = masterData[crop];
       const primaryInput = document.getElementById("primaryInput");

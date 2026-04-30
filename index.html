@@ -5,32 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crop Details Calculation</title>
 
-  <!-- ✅ LOGO (Favicon + App Icon) -->
-  <link rel="icon" href='data:image/svg+xml,
+  <!-- ✅ LOGO (Crop + Calculator Icon for Home Screen) -->
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
     <rect width="100" height="100" rx="20" fill="%232e7d32"/>
-    <text x="50" y="58" font-size="40" text-anchor="middle" fill="white">🌱</text>
-    <text x="50" y="85" font-size="30" text-anchor="middle" fill="white">🧮</text>
+    <text x="50" y="55" font-size="38" text-anchor="middle" fill="white">🌱</text>
+    <text x="50" y="82" font-size="28" text-anchor="middle" fill="white">🧮</text>
   </svg>'>
 
   <link rel="apple-touch-icon" href='data:image/svg+xml,
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
     <rect width="100" height="100" rx="20" fill="%232e7d32"/>
-    <text x="50" y="58" font-size="40" text-anchor="middle" fill="white">🌱</text>
-    <text x="50" y="85" font-size="30" text-anchor="middle" fill="white">🧮</text>
+    <text x="50" y="55" font-size="38" text-anchor="middle" fill="white">🌱</text>
+    <text x="50" y="82" font-size="28" text-anchor="middle" fill="white">🧮</text>
   </svg>'>
 
   <meta name="theme-color" content="#2e7d32">
-  <!-- ✅ END LOGO -->
-
-  <style>
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crop Details Calculation</title>
 
   <style>
     :root {
@@ -186,7 +176,7 @@
         <option value="onion">Onion</option>
         <option value="garlic">Garlic</option>
         <option value="radish">Radish</option>
-                <option value="palak">Palak</option>
+        <option value="palak">Palak</option>
         <option value="coriander">Coriander</option>
         <option value="tomato">Tomato</option>
         <option value="brinjal">Brinjal</option>
@@ -240,146 +230,74 @@
     const labourRate = 500;
 
     const masterData = {
-      orange:        { name: "Orange", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 400,   yieldPerHa: 12000, seedCost: 30,  price: 100 },
-      kiwi:          { name: "Kiwi", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 114,   yieldPerHa: 8000,  seedCost: "",  price: "" },
-      banana:        { name: "Banana", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 1100,  yieldPerHa: 35000, seedCost: "",  price: "" },
-      papaya:        { name: "Papaya", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 1800,  yieldPerHa: 40000, seedCost: "",  price: "" },
-      avocado:       { name: "Avocado", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 30,    yieldPerHa: 6000,  seedCost: "",  price: "" },
-      guava:         { name: "Guava", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 270,   yieldPerHa: 15000, seedCost: "",  price: "" },
+      orange: { name: "Orange", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 400, yieldPerHa: 12000, seedCost: 30, price: 100 },
+      kiwi: { name: "Kiwi", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 114, yieldPerHa: 8000, seedCost: "", price: "" },
+      banana: { name: "Banana", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 1100, yieldPerHa: 35000, seedCost: "", price: "" },
+      papaya: { name: "Papaya", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 1800, yieldPerHa: 40000, seedCost: "", price: "" },
+      avocado: { name: "Avocado", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 30, yieldPerHa: 6000, seedCost: "", price: "" },
+      guava: { name: "Guava", category: "Fruit", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 270, yieldPerHa: 15000, seedCost: "", price: "" },
 
-      urad:          { name: "Urad Dal", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 20,       yieldPerHa: 800,   seedCost: 150, price: 100 },
-      soyabean:      { name: "Soyabean", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 70,       yieldPerHa: 2000,  seedCost: 50,  price: 40 },
-      mustard:       { name: "Mustard", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 5,        yieldPerHa: 1000,  seedCost: 100, price: 60 },
-      rice:          { name: "Rice", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 30,       yieldPerHa: 1800,  seedCost: "",  price: 150 },
-      maize:         { name: "Maize", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 20,       yieldPerHa: 1800,  seedCost: 100, price: 60 },
-      buckwheat:     { name: "Buckwheat", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 50,       yieldPerHa: 1200,  seedCost: 100, price: 60 },
-      millet:        { name: "Millet", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 10,       yieldPerHa: 800,   seedCost: 100, price: 80 },
+      urad: { name: "Urad Dal", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 20, yieldPerHa: 800, seedCost: 150, price: 100 },
+      soyabean: { name: "Soyabean", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 70, yieldPerHa: 2000, seedCost: 50, price: 40 },
+      mustard: { name: "Mustard", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 5, yieldPerHa: 1000, seedCost: 100, price: 60 },
+      rice: { name: "Rice", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 30, yieldPerHa: 1800, seedCost: "", price: 150 },
+      maize: { name: "Maize", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 20, yieldPerHa: 1800, seedCost: 100, price: 60 },
+      buckwheat: { name: "Buckwheat", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 50, yieldPerHa: 1200, seedCost: 100, price: 60 },
+      millet: { name: "Millet", category: "Field", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 10, yieldPerHa: 800, seedCost: 100, price: 80 },
 
-      frenchbean:    { name: "French Bean", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 60000,  yieldPerHa: 1000,  seedCost: 400, price: 80 },
-      pea1:          { name: "Pea", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 80000,  yieldPerHa: 10000, seedCost: 400, price: 80 },
-      cabbage:       { name: "Cabbage", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 575,    yieldPerHa: 25000, seedCost: "",  price: "" },
-      cauliflower:   { name: "Cauliflower", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 575,    yieldPerHa: 20000, seedCost: "",  price: "" },
-      broccoli:      { name: "Broccoli", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 500,    yieldPerHa: 10000, seedCost: "",  price: "" },
-      carrot:        { name: "Carrot", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 5000,   yieldPerHa: 18000, seedCost: "",  price: "" },
-      onion:         { name: "Onion", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 650000, yieldPerHa: 12000, seedCost: "",  price: "" },
-      garlic:        { name: "Garlic", category: "Vegetable", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 600,    yieldPerHa: 7000,  seedCost: "",  price: "" },
-      radish:        { name: "Radish", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 9000,   yieldPerHa: 20000, seedCost: "",  price: "" },
-      palak:         { name: "Palak", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 28000,  yieldPerHa: 8000,  seedCost: "",  price: "" },
-      coriander:     { name: "Coriander", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 12000,  yieldPerHa: 6000,  seedCost: "",  price: "" },
-      tomato:        { name: "Tomato", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 125,    yieldPerHa: 20000, seedCost: "",  price: "" },
-      brinjal:       { name: "Brinjal", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 27000,  yieldPerHa: 18000, seedCost: "",  price: "" },
-      chilly:        { name: "Chilly", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 49000,  yieldPerHa: 8000,  seedCost: "",  price: "" },
-      bottle_gourd:  { name: "Bottle Gourd", category: "Vegetable", materialType: "Sapling", unit: "Kg", mode: "area", qtyPerHa: 3,      yieldPerHa: 12000, seedCost: "",  price: "" },
-      bitter_gourd:  { name: "Bitter Gourd", category: "Vegetable", materialType: "Sapling", unit: "Kg", mode: "area", qtyPerHa: 4,      yieldPerHa: 8000,  seedCost: "",  price: "" },
-      bhindi:        { name: "Bhindi", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 74000,  yieldPerHa: 7000,  seedCost: "",  price: "" },
-      chayote:       { name: "Chayote", category: "Vegetable", materialType: "Fruits", unit: "No.", mode: "quantity", qtyPerHa: 1500,   yieldPerHa: 12000, seedCost: "",  price: "" },
-      cucumber:      { name: "Cucumber", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 6600,   yieldPerHa: 10000, seedCost: "",  price: "" },
-      mustard_green: { name: "Mustard Green", category: "Vegetable", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 5,      yieldPerHa: 8000,  seedCost: "",  price: "" },
-      potato:        { name: "Potato", category: "Vegetable", materialType: "Seed tuber", unit: "Kg", mode: "area", qtyPerHa: 2000,   yieldPerHa: 15000, seedCost: "",  price: "" },
-      pumpkin:       { name: "Pumpkin", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 1600,   yieldPerHa: 12000, seedCost: "",  price: "" },
-      butter_beans:  { name: "Butter Beans", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 30000,  yieldPerHa: 5000,  seedCost: "",  price: "" },
-      drum_stick:    { name: "Drum Stick", category: "Vegetable", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 1100,  yieldPerHa: 8000,  seedCost: "",  price: "" },
+      frenchbean: { name: "French Bean", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 60000, yieldPerHa: 1000, seedCost: 400, price: 80 },
+      pea1: { name: "Pea", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 80000, yieldPerHa: 10000, seedCost: 400, price: 80 },
+      cabbage: { name: "Cabbage", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 575, yieldPerHa: 25000, seedCost: "", price: "" },
+      cauliflower: { name: "Cauliflower", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 575, yieldPerHa: 20000, seedCost: "", price: "" },
+      broccoli: { name: "Broccoli", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 500, yieldPerHa: 10000, seedCost: "", price: "" },
+      carrot: { name: "Carrot", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 5000, yieldPerHa: 18000, seedCost: "", price: "" },
+      onion: { name: "Onion", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 650000, yieldPerHa: 12000, seedCost: "", price: "" },
+      garlic: { name: "Garlic", category: "Vegetable", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 600, yieldPerHa: 7000, seedCost: "", price: "" },
+      radish: { name: "Radish", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 9000, yieldPerHa: 20000, seedCost: "", price: "" },
+      palak: { name: "Palak", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 28000, yieldPerHa: 8000, seedCost: "", price: "" },
+      coriander: { name: "Coriander", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 12000, yieldPerHa: 6000, seedCost: "", price: "" },
+      tomato: { name: "Tomato", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 125, yieldPerHa: 20000, seedCost: "", price: "" },
+      brinjal: { name: "Brinjal", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 27000, yieldPerHa: 18000, seedCost: "", price: "" },
+      chilly: { name: "Chilly", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 49000, yieldPerHa: 8000, seedCost: "", price: "" },
+      bottle_gourd: { name: "Bottle Gourd", category: "Vegetable", materialType: "Sapling", unit: "Kg", mode: "area", qtyPerHa: 3, yieldPerHa: 12000, seedCost: "", price: "" },
+      bitter_gourd: { name: "Bitter Gourd", category: "Vegetable", materialType: "Sapling", unit: "Kg", mode: "area", qtyPerHa: 4, yieldPerHa: 8000, seedCost: "", price: "" },
+      bhindi: { name: "Bhindi", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 74000, yieldPerHa: 7000, seedCost: "", price: "" },
+      chayote: { name: "Chayote", category: "Vegetable", materialType: "Fruits", unit: "No.", mode: "quantity", qtyPerHa: 1500, yieldPerHa: 12000, seedCost: "", price: "" },
+      cucumber: { name: "Cucumber", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 6600, yieldPerHa: 10000, seedCost: "", price: "" },
+      mustard_green: { name: "Mustard Green", category: "Vegetable", materialType: "Seed", unit: "Kg", mode: "area", qtyPerHa: 5, yieldPerHa: 8000, seedCost: "", price: "" },
+      potato: { name: "Potato", category: "Vegetable", materialType: "Seed tuber", unit: "Kg", mode: "area", qtyPerHa: 2000, yieldPerHa: 15000, seedCost: "", price: "" },
+      pumpkin: { name: "Pumpkin", category: "Vegetable", materialType: "Sapling", unit: "No.", mode: "quantity", qtyPerHa: 1600, yieldPerHa: 12000, seedCost: "", price: "" },
+      butter_beans: { name: "Butter Beans", category: "Vegetable", materialType: "Seed", unit: "gm", mode: "area", qtyPerHa: 30000, yieldPerHa: 5000, seedCost: "", price: "" },
+      drum_stick: { name: "Drum Stick", category: "Vegetable", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 1100, yieldPerHa: 8000, seedCost: "", price: "" },
 
-      large_cardamom:{ name: "Large Cardamom", category: "Spice", materialType: "Sucker", unit: "No.", mode: "quantity", qtyPerHa: 4500,  yieldPerHa: 300,   seedCost: "",  price: "" },
-      ginger:        { name: "Ginger", category: "Spice", materialType: "Rhizome", unit: "Kg", mode: "area", qtyPerHa: 2000,     yieldPerHa: 12000, seedCost: "",  price: "" },
-      turmeric:      { name: "Turmeric", category: "Spice", materialType: "Rhizome", unit: "Kg", mode: "area", qtyPerHa: 2200,    yieldPerHa: 15000, seedCost: "",  price: "" },
+      large_cardamom: { name: "Large Cardamom", category: "Spice", materialType: "Sucker", unit: "No.", mode: "quantity", qtyPerHa: 4500, yieldPerHa: 300, seedCost: "", price: "" },
+      ginger: { name: "Ginger", category: "Spice", materialType: "Rhizome", unit: "Kg", mode: "area", qtyPerHa: 2000, yieldPerHa: 12000, seedCost: "", price: "" },
+      turmeric: { name: "Turmeric", category: "Spice", materialType: "Rhizome", unit: "Kg", mode: "area", qtyPerHa: 2200, yieldPerHa: 15000, seedCost: "", price: "" },
       cherry_pepper: { name: "Cherry Pepper", category: "Spice", materialType: "Plants", unit: "No.", mode: "quantity", qtyPerHa: 10000, yieldPerHa: 15000, seedCost: "", price: "" }
     };
 
-    const unitText = (u) => (u || "").toLowerCase();
-
     function formatCurrency(value) {
-      return "₹ " + Number(value).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+      return "₹ " + Number(value).toLocaleString("en-IN");
     }
 
     function formatNumber(value) {
       return Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 });
     }
 
-    function quantityLabel(data) {
-      const mt = (data.materialType || "").toLowerCase();
-      if (mt === "sucker") return "Number of Suckers";
-      if (mt === "sapling") return "Number of Saplings";
-      if (mt === "plants") return "Number of Plants";
-      if (mt === "seed tuber") return "Number of Seed Tubers";
-      if (data.unit === "No.") return "Number of Plants";
-      return "Planting Material Quantity";
-    }
-
-    function seedCostLabel(data) {
-      const u = unitText(data.unit);
-      const mt = (data.materialType || "").toLowerCase();
-      if (u === "kg") return "Planting Material Cost (₹ per kg)";
-      if (u === "gm") return "Planting Material Cost (₹ per gm)";
-      if (u === "no.") {
-        if (mt === "sucker") return "Sucker Cost (₹ per No.)";
-        if (mt === "sapling") return "Sapling Cost (₹ per No.)";
-        if (mt === "plants") return "Plant Cost (₹ per No.)";
-        return "Planting Material Cost (₹ per No.)";
-      }
-      return "Planting Material Cost (₹)";
-    }
-
     function updateInputs() {
       const crop = document.getElementById("crop").value;
-      const primaryLabel = document.getElementById("primaryLabel");
-      const secondaryLabel = document.getElementById("secondaryLabel");
+      const data = masterData[crop];
       const primaryInput = document.getElementById("primaryInput");
       const secondaryInput = document.getElementById("secondaryInput");
-      const hintText = document.getElementById("hintText");
-      const seedCostInput = document.getElementById("seedCost");
-      const priceInput = document.getElementById("price");
-      const priceLabel = document.getElementById("priceLabel");
 
       document.getElementById("result").style.display = "none";
 
-      if (!crop) {
-        primaryLabel.innerHTML = 'Area (hectare) <span class="req">*</span>';
-        secondaryLabel.innerHTML = 'Planting Material';
-        primaryInput.value = "";
-        secondaryInput.value = "";
-        primaryInput.disabled = false;
-        secondaryInput.disabled = true;
-        primaryInput.placeholder = "";
-        secondaryInput.placeholder = "";
-        hintText.textContent = "Select a crop first.";
-        seedCostInput.value = "";
-        priceInput.value = "";
-        document.getElementById("materialCostLabel").innerHTML = 'Planting Material Cost (₹)';
-        return;
-      }
-
-      const data = masterData[crop];
-
-      seedCostInput.value = (data.seedCost === "" || data.seedCost === undefined) ? "" : data.seedCost;
-      priceInput.value = (data.price === "" || data.price === undefined) ? "" : data.price;
-
-      document.getElementById("materialCostLabel").innerText = seedCostLabel(data);
+      if (!crop) return;
 
       if (data.mode === "quantity") {
-        primaryLabel.innerHTML = `${quantityLabel(data)} (${data.unit}) <span class="req">*</span>`;
-        secondaryLabel.innerText = "Area (hectare)";
-        primaryInput.disabled = false;
-        secondaryInput.disabled = true;
-        primaryInput.value = "";
-        secondaryInput.value = "";
-        primaryInput.placeholder = `Enter ${quantityLabel(data).toLowerCase()}`;
-        secondaryInput.placeholder = "Auto calculated";
-        primaryInput.step = "1";
-        secondaryInput.step = "0.1";
-        hintText.textContent = "Enter number of plants/saplings/suckers. Area will be auto calculated.";
+        primaryInput.placeholder = "Enter number of plants";
       } else {
-        primaryLabel.innerHTML = 'Area (hectare) <span class="req">*</span>';
-        secondaryLabel.innerText = `${quantityLabel(data)} (${data.unit})`;
-        primaryInput.disabled = false;
-        secondaryInput.disabled = true;
-        primaryInput.value = "";
-        secondaryInput.value = "";
         primaryInput.placeholder = "Enter area";
-        secondaryInput.placeholder = "Auto calculated";
-        primaryInput.step = "0.1";
-        secondaryInput.step = "1";
-        hintText.textContent = "Enter area. Planting material quantity will be auto calculated.";
       }
     }
 
@@ -391,61 +309,26 @@
       }
 
       const data = masterData[crop];
-      const primaryInput = document.getElementById("primaryInput");
-      const secondaryInput = document.getElementById("secondaryInput");
+      const primary = parseFloat(document.getElementById("primaryInput").value);
+      const price = parseFloat(document.getElementById("price").value);
 
-      const seedCost = parseFloat(document.getElementById("seedCost").value) || 0;
-      const priceValue = document.getElementById("price").value;
-      if (priceValue === "" || isNaN(parseFloat(priceValue))) {
-        alert("Please enter selling price per kg.");
+      if (!primary || !price) {
+        alert("Fill required fields.");
         return;
       }
-      const price = parseFloat(priceValue);
-      const labour = parseFloat(document.getElementById("labour").value) || 0;
-      const otherCost = parseFloat(document.getElementById("otherCost").value) || 0;
 
-      let area = 0;
-      let quantity = 0;
-      let yieldKg = 0;
-
-      if (data.mode === "quantity") {
-        quantity = parseFloat(primaryInput.value);
-        if (!quantity || quantity <= 0) {
-          alert(`Please enter ${quantityLabel(data).toLowerCase()}.`);
-          return;
-        }
-        area = quantity / data.qtyPerHa;
-        yieldKg = area * data.yieldPerHa;
-        secondaryInput.value = formatNumber(area);
-      } else {
-        area = parseFloat(primaryInput.value);
-        if (!area || area <= 0) {
-          alert("Please enter area.");
-          return;
-        }
-        quantity = area * data.qtyPerHa;
-        yieldKg = area * data.yieldPerHa;
-        secondaryInput.value = `${formatNumber(quantity)} ${data.unit}`;
-      }
-
-      const labourCost = labour * labourRate;
-      const income = yieldKg * price;
-      const expenditure = (quantity * seedCost) + labourCost + otherCost;
+      let area = data.mode === "quantity" ? primary / data.qtyPerHa : primary;
+      let yieldKg = area * data.yieldPerHa;
+      let income = yieldKg * price;
 
       const resultEl = document.getElementById("result");
       resultEl.style.display = "block";
       resultEl.innerHTML = `
         <strong>Result:</strong><br><br>
         Crop: ${data.name}<br>
-        ${data.mode === "quantity"
-          ? `${quantityLabel(data)}: ${formatNumber(quantity)} ${data.unit}<br>`
-          : `Planting Material Used: ${formatNumber(quantity)} ${data.unit}<br>`
-        }
         Area: ${formatNumber(area)} ha<br>
         Yield: ${formatNumber(yieldKg)} kg<br>
-        Labour Cost: ${formatCurrency(labourCost)}<br>
-        Income: ${formatCurrency(income)}<br>
-        Expenditure: ${formatCurrency(expenditure)}
+        Income: ${formatCurrency(income)}
       `;
     }
   </script>
